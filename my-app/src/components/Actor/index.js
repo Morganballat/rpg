@@ -1,5 +1,5 @@
 import React from 'react';
-import Sprite from '../Sprites';
+import Sprites from '../Sprites';
 
 export default function Actor({
 	sprite,
@@ -9,8 +9,9 @@ export default function Actor({
 	direction = 0,
 }) {
 	const { h, w } = data;
+	console.log('position in actor', position);
 	return (
-		<Sprite
+		<Sprites
 			image={sprite}
 			position={position}
 			data={{

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 export default function useWalk(maxSteps) {
-	const [position, setPosition] = useState(0);
+	const [position, setPosition] = useState({ x: 0, y: 0 });
 	const [direction, setDirection] = useState(0);
 	const [step, setStep] = useState(0);
 	const directions = {
@@ -21,23 +21,29 @@ export default function useWalk(maxSteps) {
 	};
 
 	function walk(direction) {
-		console.dir(directions[direction]);
-		setDirection((previous) => {
-			if (directions[direction] === previous) move(direction);
+		setDirection(() => {
 			return directions[direction];
 		});
+		console.log('directions direction in walk func', directions[direction]);
+		if (directions[direction] === direction) {
+			move(direction);
+			return directions[direction];
+		}
 		setStep((previous) => (previous < maxSteps - 1 ? previous + 1 : 0));
 	}
+	console.log('in walk, position state', position);
 
 	function move(direction) {
-		setPosition((previous) => ({
-			x: previous.x + modifier[direction].x,
-			y: previous.y + modifier[direction].y,
+		console.log('modifier', modifier[direction].x);
+		setPosition(() => ({
+			x: position.x + modifier[direction].x,
+			y: position.y + modifier[direction].y,
 		}));
 	}
+
 	return {
-		walk,
 		direction,
+		walk,
 		step,
 		position,
 	};
